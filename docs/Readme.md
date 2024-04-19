@@ -1,3 +1,18 @@
+# ML-Agents 非Unity環境への通信インタフェースのPoC実装
+- 具体的にはBaseEnvの中身を実装する
+- Pythonで作ったマルチエージェント環境(CartPole*N個)に接続し学習できることを確認する(多分)
+## 環境構築
+- Pythonバージョン
+```
+python_requires=">=3.10.1,<=3.10.12"
+```
+- パッケージインストール
+```
+pip install -e ml-agents
+pip install -e ml-agents-envs
+pip install matplotlib gym[classic_control]
+```
+
 # Unity ML-Agents Toolkit
 
 [![docs badge](https://img.shields.io/badge/docs-reference-blue.svg)](https://github.com/Unity-Technologies/ml-agents/tree/release_21_docs/docs/)
