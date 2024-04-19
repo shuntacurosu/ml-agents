@@ -26,9 +26,8 @@ set_env_parameters  --->               ENVIRONMENT_PARAMETERS,            ---> p
                     --->               RESET,                             ---> env.reset()
                                                                                _generate_all_result() # 全BehaviorNameのstateを取得
                     <---               RESET,all_step_result              <--- _send_response() # 結果をEnvManagerに返す
-on_training_started ---> TRAINING_STARTED,(BehaviorNmae, TrainerSettings) ---> サイドチャネルでハイパラ？を送信
-on_training_started ---> TRAINING_STARTED,(BehaviorNmae, TrainerSettings) ---> サイドチャネルでハイパラ？を送信
-training_behaviors  --->               BEHAVIOR_SPECS                     ---> サイドチャネルでハイパラ？を送信
+on_training_started ---> TRAINING_STARTED,(BehaviorNmae, TrainerSettings) ---> サイドチャネルでハイパラ？を環境に送信
+training_behaviors  --->               BEHAVIOR_SPECS                     ---> 
                     <---               BEHAVIOR_SPECS,BehaviorMapping     <--- _send_response()  # BehaviorMapping: Dict[BehaviorName, BehaviorSpec] を返す
 _step()             --->               STEP,dict<BehaviorNmae,ActionInfo> ---> env.set_actions() # BehaviorNameに対応するアクションをセット
                                                                                env.step()        # 環境にactionを送信(学習側における1step()を実行) → stateを取得
