@@ -1,3 +1,42 @@
+# ML-Agents 非Unity環境への通信インタフェースのPoC実装
+- 具体的にはBaseEnvの中身を実装する
+- Pythonで作ったマルチエージェント環境(CartPole*N個)に接続し学習できることを確認する(多分)
+## 環境構築
+- Pythonバージョン
+```
+python_requires=">=3.10.1,<=3.10.12"
+```
+- パッケージインストール
+```
+pip install -e ml-agents
+pip install -e ml-agents-envs
+pip install matplotlib gym[classic_control]
+```
+
+## フローの解析(config/ppo/3DBall.yamlの場合)
+```
+----------------|
+- : Pipeで通信   |
+= : Queueで通信  |
+----------------|
+
+EnvManager                             EnvironmentCoomand(cmd,payload)         worker()
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+set_env_parameters  --->               ENVIRONMENT_PARAMETERS,            ---> pass    
+                    --->               RESET,                             ---> env.reset()
+                                                                               _generate_all_result() # 全BehaviorNameのstateを取得
+                    <---               RESET,all_step_result              <--- _send_response() # 結果をEnvManagerに返す
+on_training_started ---> TRAINING_STARTED,(BehaviorNmae, TrainerSettings) ---> サイドチャネルでハイパラ？を環境に送信
+training_behaviors  --->               BEHAVIOR_SPECS                     ---> 
+                    <---               BEHAVIOR_SPECS,BehaviorMapping     <--- _send_response()  # BehaviorMapping: Dict[BehaviorName, BehaviorSpec] を返す
+_step()             --->               STEP,dict<BehaviorNmae,ActionInfo> ---> env.set_actions() # BehaviorNameに対応するアクションをセット
+                                                                               env.step()        # 環境にactionを送信(学習側における1step()を実行) → stateを取得
+                                                                               _generate_all_result() # 全BehaviorNameのstateを取得
+                    <===               STEP,StepResponse                  <=== _send_response() # 結果をEnvManagerに返す
+
+
+```
+
 # Unity ML-Agents Toolkit
 
 [![docs badge](https://img.shields.io/badge/docs-reference-blue.svg)](https://github.com/Unity-Technologies/ml-agents/tree/release_21_docs/docs/)
