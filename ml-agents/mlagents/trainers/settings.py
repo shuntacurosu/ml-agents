@@ -1,3 +1,4 @@
+import datetime
 import os.path
 import warnings
 
@@ -933,7 +934,7 @@ class RunOptions(ExportableSettings):
         for key, val in argparse_args.items():
             if key in DetectDefault.non_default_args:
                 if key in attr.fields_dict(CheckpointSettings):
-                    configured_dict["checkpoint_settings"][key] = val
+                    configured_dict["checkpoint_settings"][key] = val + datetime.datetime.now().strftime('_%Y%m%d_%H%M%S')
                 elif key in attr.fields_dict(EnvironmentSettings):
                     configured_dict["env_settings"][key] = val
                 elif key in attr.fields_dict(EngineSettings):

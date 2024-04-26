@@ -98,3 +98,6 @@ coverage.xml
 
 # yamato-parser temporary output files:
 .yamato/unfolded/
+
+/.venv
+/exe
