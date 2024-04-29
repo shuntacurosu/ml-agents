@@ -13,6 +13,12 @@ pip install -e ml-agents-envs
 pip install matplotlib gym[classic_control]
 ```
 
+- 実行方法
+```
+python main_impl.py config/ppo/CartPole-v1.yaml --run-id=CartPole-v1
+```
+
+
 ## フローの解析(config/ppo/3DBall.yamlの場合)
 ```
 ----------------|
